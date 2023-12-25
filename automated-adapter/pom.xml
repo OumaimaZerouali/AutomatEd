@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>be.twice</groupId>
-    <artifactId>application</artifactId>
+    <artifactId>automated-adapter</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -20,15 +20,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>be.twice</groupId>
+            <artifactId>user</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>be.twice</groupId>
+            <artifactId>user</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>be.twice</groupId>
-            <artifactId>automated-adapter</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
-
 </project>

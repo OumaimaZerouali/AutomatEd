@@ -1,8 +1,12 @@
 package be.twice.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 public class User {
-    private Long id;
+    @Id
+    private String id;
     private String username;
     private String email;
     private String password;
@@ -19,11 +23,11 @@ public class User {
         this.role = role;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
