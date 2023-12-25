@@ -1,13 +1,12 @@
-package be.twice.automated;
+package org.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AutomatEdApplication {
-
+public class Main {
     public static void main(String[] args) {
-        SpringApplication.run(AutomatEdApplication.class, args);
+        SpringApplication.run(Main.class);
+        System.out.println("Hello World");
     }
-
 }
