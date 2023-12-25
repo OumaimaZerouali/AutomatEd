@@ -1,4 +1,4 @@
-package org.example.model;
+package be.twice.model;
 
 
 public class User {
@@ -6,8 +6,17 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private Role role;
 
     public User() {
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Long getId() {
