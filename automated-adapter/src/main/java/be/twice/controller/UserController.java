@@ -1,10 +1,10 @@
 package be.twice.controller;
 
+import be.twice.model.User;
+import be.twice.model.UserDTO;
 import be.twice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -16,13 +16,24 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping("/home")
-    public String home() {
-        return service.home();
+    @PostMapping("/insert-user")
+    public User registerUser(@RequestBody UserDTO userDTO) {
+        return service.registerUser(userDTO);
     }
 
-    @PostMapping("/insert-user")
-    public void insertUser() {
-        service.insertNewUser();
+    @PutMapping("/update-user")
+    public User updateUser(@RequestParam("userId") String userId,
+                           @RequestBody UserDTO userDTO) {
+        return service.updateUser(userId, userDTO);
+    }
+
+    @GetMapping("/get-user")
+    public User getUserById(@RequestParam("userId") String userId) {
+        return service.getUserById(userId);
+    }
+
+    @DeleteMapping("/delete-user")
+    public void deleteUser(@RequestParam("userId") String userId) {
+        service.deleteUser(userId);
     }
 }
