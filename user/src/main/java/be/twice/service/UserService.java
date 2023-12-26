@@ -3,7 +3,10 @@ package be.twice.service;
 import be.twice.model.Role;
 import be.twice.model.User;
 import be.twice.model.UserDTO;
+import be.twice.model.request.UserLoginRequest;
+import be.twice.model.request.UserRegisterRequest;
 import be.twice.repository.UserRepository;
+import be.twice.token.GenerateToken;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,13 +28,13 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public ResponseEntity<?> registerUser(@Valid UserDTO userDTO) {
+    public ResponseEntity<?> registerUser(@Valid UserRegisterRequest userRegisterRequest) {
         try {
-            String hashedPassword = passwordEncoder.encode(userDTO.getPassword());
+            String hashedPassword = passwordEncoder.encode(userRegisterRequest.getPassword());
 
             User user = new User();
-            user.setEmail(userDTO.getEmail());
-            user.setUsername(userDTO.getUsername());
+            user.setEmail(userRegisterRequest.getEmail());
+            user.setUsername(userRegisterRequest.getUsername());
             user.setRole(Role.USER);
             user.setPassword(hashedPassword);
 
@@ -40,7 +43,27 @@ public class UserService {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
 
+    public ResponseEntity<?> loginUser(UserLoginRequest userLoginRequest) {
+        try {
+            User user = repository.findUserByUsername(userLoginRequest.getUsername());
+
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            }
+
+            if (!passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            }
+
+            GenerateToken generateToken = new GenerateToken();
+            String token = generateToken.generate(user.getId(), user.getRole().toString());
+
+            return ResponseEntity.ok(token);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     public User updateUser(String userId, UserDTO userDTO) {
