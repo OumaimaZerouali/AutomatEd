@@ -2,6 +2,8 @@ package be.twice.controller;
 
 import be.twice.model.User;
 import be.twice.model.UserDTO;
+import be.twice.model.request.UserLoginRequest;
+import be.twice.model.request.UserRegisterRequest;
 import be.twice.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,13 @@ public class UserController {
     }
 
     @PostMapping("/register-user")
-    public ResponseEntity<?> registerUser(@RequestBody @Valid UserDTO userDTO) {
-        return service.registerUser(userDTO);
+    public ResponseEntity<?> registerUser(@RequestBody @Valid UserRegisterRequest userRegisterRequest) {
+        return service.registerUser(userRegisterRequest);
+    }
+
+    @PostMapping("/login-user")
+    public ResponseEntity<?> loginUser(@RequestBody UserLoginRequest userLoginRequest) {
+        return service.loginUser(userLoginRequest);
     }
 
     @PutMapping("/update-user")
