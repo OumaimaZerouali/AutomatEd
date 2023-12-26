@@ -15,7 +15,9 @@ jobs:
 
       - name: Check if review is required
         id: review_check
-        run: echo "::set-output name=review_required::${ github.event.pull_request.maintainer_can_modify }"
+        run: |
+          REVIEW_REQUIRED=$(jq -r '.pull_request.maintainer_can_modify' <<< "${{ toJson(github.event) }}")
+          echo "::set-output name=review_required::$REVIEW_REQUIRED"
 
       - name: Send approval request to Telegram
         if: steps.review_check.outputs.review_required == 'true'
