@@ -24,6 +24,7 @@
         <module>ai</module>
         <module>mongodb</module>
         <module>automated-adapter</module>
+        <module>security</module>
     </modules>
 
     <properties>
