@@ -4,11 +4,16 @@ import be.twice.model.Role;
 import be.twice.model.User;
 import be.twice.model.UserDTO;
 import be.twice.repository.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Validated
 public class UserService {
 
     private final UserRepository repository;
@@ -20,17 +25,22 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User registerUser(UserDTO userDTO) {
-        String hashedPassword = passwordEncoder.encode(userDTO.getPassword());
+    public ResponseEntity<?> registerUser(@Valid UserDTO userDTO) {
+        try {
+            String hashedPassword = passwordEncoder.encode(userDTO.getPassword());
 
-        User user = new User();
-        user.setEmail(userDTO.getEmail());
-        user.setUsername(userDTO.getUsername());
-        user.setRole(Role.USER);
-        user.setPassword(hashedPassword);
+            User user = new User();
+            user.setEmail(userDTO.getEmail());
+            user.setUsername(userDTO.getUsername());
+            user.setRole(Role.USER);
+            user.setPassword(hashedPassword);
 
-        repository.insert(user);
-        return user;
+            repository.insert(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
     }
 
     public User updateUser(String userId, UserDTO userDTO) {

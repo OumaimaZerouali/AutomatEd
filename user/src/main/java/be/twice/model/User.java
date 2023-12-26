@@ -1,5 +1,6 @@
 package be.twice.model;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,6 +11,7 @@ public class User {
     private String username;
     private String email;
     private String password;
+    @NotNull(message = "Role is required")
     private Role role;
 
     public User() {
