@@ -13,17 +13,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Check if the pull request needs review
-        run: |
-          if [ "${{ github.event.pull_request.draft }}" == "false" ] && [ "${{ github.event.pull_request.mergeable }}" == "true" ]; then
-            SEND_NOTIFICATION="true"
-          else
-            SEND_NOTIFICATION="false"
-          fi
-
       - name: Send approval request to Telegram
         run: |
-          if [ "$SEND_NOTIFICATION" == "true" ]; then
+          if "${{ github.event.pull_request.mergeable }}" == "false"
             curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
               -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
               -d "text=🚀 Pull Request opened! Please review and approve: ${{ github.event.pull_request.html_url }}" \
