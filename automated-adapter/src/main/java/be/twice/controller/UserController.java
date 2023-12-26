@@ -43,8 +43,8 @@ public class UserController {
     }
 
     @GetMapping("/get-user")
-    public User getUserById(@RequestParam("userId") String userId) {
-        return service.getUserById(userId);
+    public ResponseEntity<?> getUserById(@RequestParam("token") String token) {
+        return service.getCurrentUserById(token);
     }
 
     @DeleteMapping("/delete-user")

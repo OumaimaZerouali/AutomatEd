@@ -7,6 +7,8 @@ import be.twice.model.request.UserLoginRequest;
 import be.twice.model.request.UserRegisterRequest;
 import be.twice.repository.UserRepository;
 import be.twice.token.GenerateToken;
+import be.twice.token.TokenParser;
+import io.jsonwebtoken.Claims;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,8 +78,16 @@ public class UserService {
         return user;
     }
 
-    public User getUserById(String userId) {
-        return repository.findUserById(userId);
+    public ResponseEntity<?> getCurrentUserById(String token) {
+        try {
+            TokenParser tokenParser = new TokenParser();
+            Claims claims = tokenParser.getTokenPayload(token);
+
+            User currentUser = repository.findUserById(claims.getSubject());
+            return ResponseEntity.status(HttpStatus.OK).body(currentUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     public void deleteUser(String userId) {
