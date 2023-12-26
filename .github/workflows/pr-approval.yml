@@ -8,7 +8,7 @@ on:
 jobs:
   send-approval-request:
     runs-on: ubuntu-latest
-    if: ${{ github.event.opened.mergeable }} == "false"
+    if: ${{ github.event.opened.mergeable == "false" }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
