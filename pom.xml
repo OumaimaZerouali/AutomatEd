@@ -65,6 +65,11 @@
                 <artifactId>automated-adapter</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>be.twice</groupId>
+                <artifactId>security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>
