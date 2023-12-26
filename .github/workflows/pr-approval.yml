@@ -18,7 +18,7 @@ jobs:
         run: echo "::set-output name=review_required::${ github.event.pull_request.maintainer_can_modify }"
 
       - name: Send approval request to Telegram
-        if: steps.review_check.outputs.review_required = 'true'
+        if: steps.review_check.outputs.review_required == 'true'
         run: |
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
             -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
