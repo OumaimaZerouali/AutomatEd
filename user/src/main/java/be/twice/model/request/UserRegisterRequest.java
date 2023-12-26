@@ -1,10 +1,10 @@
-package be.twice.model;
+package be.twice.model.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class UserDTO {
+public class UserRegisterRequest {
     @NotBlank(message = "Username is required")
     private String username;
     @NotBlank(message = "Email is required")
@@ -14,7 +14,7 @@ public class UserDTO {
     @Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;
 
-    public UserDTO() {
+    public UserRegisterRequest() {
     }
 
     public String getUsername() {
