@@ -1,6 +1,5 @@
 package be.twice.controller;
 
-import be.twice.model.User;
 import be.twice.model.UserDTO;
 import be.twice.model.request.UserLoginRequest;
 import be.twice.model.request.UserRegisterRequest;
@@ -37,9 +36,9 @@ public class UserController {
     }
 
     @PutMapping("/update-user")
-    public User updateUser(@RequestParam("userId") String userId,
-                           @RequestBody UserDTO userDTO) {
-        return service.updateUser(userId, userDTO);
+    public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO,
+                                        @RequestParam("token") String token) {
+        return service.updateUser(userDTO, token);
     }
 
     @GetMapping("/get-user")

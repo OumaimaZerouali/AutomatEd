@@ -68,14 +68,24 @@ public class UserService {
         }
     }
 
-    public User updateUser(String userId, UserDTO userDTO) {
-        User user = repository.findUserById(userId);
-        user.setUsername(userDTO.getUsername());
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
+    public ResponseEntity<?> updateUser(UserDTO userDTO, String token) {
+        try {
+            TokenParser tokenParser = new TokenParser();
+            Claims claims = tokenParser.getTokenPayload(token);
 
-        repository.save(user);
-        return user;
+            String currentUserId = claims.getSubject();
+            User user = repository.findUserById(currentUserId);
+
+            String hashedPassword = passwordEncoder.encode(userDTO.getPassword());
+            user.setUsername(userDTO.getUsername());
+            user.setEmail(userDTO.getEmail());
+            user.setPassword(hashedPassword);
+
+            repository.save(user);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     public ResponseEntity<?> getCurrentUserById(String token) {
@@ -90,7 +100,11 @@ public class UserService {
         }
     }
 
-    public void deleteUser(String userId) {
+    public void deleteUser(String token) {
+        TokenParser tokenParser = new TokenParser();
+        Claims claims = tokenParser.getTokenPayload(token);
+
+        String userId = claims.getSubject();
         repository.deleteById(userId);
     }
 }
