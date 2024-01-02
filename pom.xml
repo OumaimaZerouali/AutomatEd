@@ -17,14 +17,19 @@
     <description>AutomatEd</description>
 
     <modules>
-        <module>user</module>
+        <module>user-usecase</module>
         <module>application</module>
-        <module>exercise</module>
-        <module>course</module>
+        <module>exercise-usecase</module>
+        <module>course-model</module>
         <module>ai</module>
         <module>mongodb</module>
-        <module>automated-adapter</module>
+        <module>user-adapter</module>
         <module>security</module>
+        <module>user-model</module>
+        <module>exercise-model</module>
+        <module>exercise-adapter</module>
+        <module>course-adapter</module>
+        <module>course-usecase</module>
     </modules>
 
     <properties>
@@ -37,7 +42,7 @@
         <dependencies>
             <dependency>
                 <groupId>be.twice</groupId>
-                <artifactId>user</artifactId>
+                <artifactId>user-usecase</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -68,6 +73,11 @@
             <dependency>
                 <groupId>be.twice</groupId>
                 <artifactId>security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>be.twice</groupId>
+                <artifactId>user-model</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

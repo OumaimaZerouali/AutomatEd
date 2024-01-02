@@ -25,7 +25,7 @@
 
         <dependency>
             <groupId>be.twice</groupId>
-            <artifactId>automated-adapter</artifactId>
+            <artifactId>user-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
