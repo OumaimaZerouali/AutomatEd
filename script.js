@@ -6,7 +6,7 @@ document.getElementById('ideaForm').addEventListener('submit', function(event) {
     fetch('https://api.github.com/repos/OumaimaZerouali/AutomatEd/issues', {
         method: 'POST',
         headers: {
-            'Authorization': 'token GITHUB_TOKEN',
+            'Authorization': 'TOKEN',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
