@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JTires Ideas</title>
+</head>
+<body>
+<h1>Share Your Ideas for JTires</h1>
+<form action="https://formspree.io/your-email" method="POST">
+    <label for="idea">Your Idea:</label>
+    <textarea name="idea" id="idea" rows="4" required></textarea><br>
+    <button type="submit">Submit</button>
+</form>
+
+<h2>Submitted Ideas</h2>
+<div id="ideas-list">
+</div>
+
+<script>
+    fetch('https://api.github.com/repos/your-repo/issues?labels=Ideas')
+        .then(response => response.json())
+        .then(data => {
+            const ideasList = document.getElementById('ideas-list');
+            data.forEach(issue => {
+                const ideaItem = document.createElement('div');
+                ideaItem.innerHTML = `<h3>${issue.title}</h3><p>${issue.body}</p>`;
+                ideasList.appendChild(ideaItem);
+            });
+        });
+</script>
+</body>
+</html>
