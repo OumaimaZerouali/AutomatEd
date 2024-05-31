@@ -2,6 +2,7 @@ document.getElementById('ideaForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const idea = document.getElementById('idea').value;
 
+
     fetch('https://api.github.com/repos/OumaimaZerouali/AutomatEd/issues', {
         method: 'POST',
         headers: {
