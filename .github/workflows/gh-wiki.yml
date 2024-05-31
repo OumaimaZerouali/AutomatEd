@@ -1,0 +1,43 @@
+name: Update Wiki with New Ideas
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  update-wiki:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get issue details
+        id: issue
+        uses: actions/github-script@v3
+        with:
+          script: |
+            const issue = context.payload.issue;
+            return {
+              title: issue.title,
+              body: issue.body
+            };
+
+      - name: Checkout Wiki
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git clone https://github.com/${{ github.repository_owner }}/your-repo.wiki.git wiki
+
+      - name: Update Wiki
+        run: |
+          echo "## ${{ steps.issue.outputs.title }}" >> wiki/Ideas.md
+          echo "${{ steps.issue.outputs.body }}" >> wiki/Ideas.md
+          echo "" >> wiki/Ideas.md
+
+      - name: Commit changes
+        run: |
+          cd wiki
+          git add Ideas.md
+          git commit -m "Add new idea from issue #${{ github.event.issue.number }}"
+          git push
